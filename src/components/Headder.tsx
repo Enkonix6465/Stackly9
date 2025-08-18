@@ -12,15 +12,15 @@ const Headder = (props: Props) => {
   const [userInitials, setUserInitials] = React.useState(""); // Default initials
   React.useEffect(() => {
     // Runs only in the browser
-    const userData = localStorage.getItem("users");
+    const userData = localStorage.getItem("currentUser");
     // console.log("User Data:", userData); // Debugging line
 
     if (userData) {
       try {
         const user = JSON.parse(userData);
         console.log("Parsed User Data:", user); // Debugging line
-        const firstInitial = user[0].firstName?.[0]?.toUpperCase() || "R";
-        const lastInitial = user[0].lastName?.[0]?.toUpperCase() || "B";
+        const firstInitial = user.firstName?.[0]?.toUpperCase() || "R";
+        const lastInitial = user.lastName?.[0]?.toUpperCase() || "B";
         setUserInitials(firstInitial + lastInitial);
       } catch (error) {
         console.error("Failed to parse user data:", error);
@@ -456,10 +456,10 @@ const Headder = (props: Props) => {
                     if (currentUserStr) {
                       const currentUser = JSON.parse(currentUserStr);
                       const users = JSON.parse(
-                        localStorage.getItem("users") || "[]",
+                        localStorage.getItem("users") || "[]"
                       );
                       const idx = users.findIndex(
-                        (u: any) => u.email === currentUser.email,
+                        (u: any) => u.email === currentUser.email
                       );
                       if (idx !== -1) {
                         users[idx].lastLogoutAt = new Date().toISOString();
@@ -500,10 +500,10 @@ const Headder = (props: Props) => {
                   if (currentUserStr) {
                     const currentUser = JSON.parse(currentUserStr);
                     const users = JSON.parse(
-                      localStorage.getItem("users") || "[]",
+                      localStorage.getItem("users") || "[]"
                     );
                     const idx = users.findIndex(
-                      (u: any) => u.email === currentUser.email,
+                      (u: any) => u.email === currentUser.email
                     );
                     if (idx !== -1) {
                       users[idx].lastLogoutAt = new Date().toISOString();

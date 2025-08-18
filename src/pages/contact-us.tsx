@@ -220,9 +220,9 @@ const ContactUsPage = (props: Props) => {
         {/* 6. Newsletter/CTA Section */}
         <section
           data-aos="fade-up"
-          className="py-12  bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"
+          className="py-12  bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 max-w-screen"
         >
-          <div className="max-w-xl mx-auto flex flex-col items-center text-center">
+          <div className="  mx-auto flex flex-col items-center text-center">
             <h2 className="text-2xl font-bold mb-4 text-white drop-shadow-lg">
               Stay Connected
             </h2>
@@ -230,11 +230,11 @@ const ContactUsPage = (props: Props) => {
               Subscribe to our newsletter for the latest updates, offers, and
               news from MyShop!
             </p>
-            <form className="flex w-full justify-center gap-2 items-center  max-w-md">
+            <form className="md:flex w-full justify-center gap-2 items-center     max-w-md">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-full border outline-none text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 dark:focus:ring-pink-500 transition"
+                className="  px-4 py-3 rounded-full border outline-none not-md:my-2 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 dark:focus:ring-pink-500 transition"
                 required
               />
               <button

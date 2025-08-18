@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Head from "next/head";
+import { ModeToggle } from "@/components/ModeToggle";
 
 const AuthPage = () => {
   const router = useRouter();
@@ -101,24 +102,33 @@ const AuthPage = () => {
           content="Login or register to access your account on MyShop."
         />
       </Head>
+
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-700">
         <div
           className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl p-0 w-full max-w-3xl overflow-hidden relative"
           style={{ minHeight: 500 }}
         >
+          {/* Mode Toggle Button */}
+          <div className="absolute top-0 left-0 w-full flex items-center justify-end p-4 z-50">
+            <ModeToggle />
+          </div>
           {/* Animated Forms Container */}
-          <div className="relative w-full h-[500px] min-h-[400px]">
+          <div className="md:relative w-full md:h-[500px] min-h-[400px] h-[700px]">
             {/* Login Side */}
             <div
               className={`absolute top-0 left-0 w-full h-full flex flex-row not-md:flex-col-reverse items-center justify-center p-10 transition-all duration-700 ease-in-out
-              ${mode === "login" ? "opacity-100 translate-x-0 z-20 pointer-events-auto" : "opacity-0 -translate-x-10 z-10 pointer-events-none"}
+              ${
+                mode === "login"
+                  ? "opacity-100 translate-x-0 z-20 pointer-events-auto"
+                  : "opacity-0 -translate-x-10 z-10 pointer-events-none"
+              }
             `}
               style={{ minWidth: 340 }}
             >
               <div className="flex-1 flex flex-col  justify-center h-full">
                 <form
                   onSubmit={handleLoginSubmit}
-                  className="w-full h-full flex flex-col justify-center"
+                  className="  flex flex-col justify-center"
                 >
                   <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 dark:from-yellow-200 dark:via-pink-400 dark:to-pink-600 mb-6 animate-gradient-x text-center">
                     Login
@@ -188,8 +198,12 @@ const AuthPage = () => {
             </div>
             {/* Register Side */}
             <div
-              className={`absolute top-0 left-0 w-full h-full flex flex-row not-md:flex-col-reverse items-center justify-center p-10 transition-all duration-700 ease-in-out
-              ${mode === "register" ? "opacity-100 translate-x-0 z-20 pointer-events-auto" : "opacity-0 translate-x-10 z-10 pointer-events-none"}
+              className={`absolute top-0 left-0 w-full h-full flex flex-row not-md:flex-col items-center justify-center p-10 transition-all duration-700 ease-in-out
+              ${
+                mode === "register"
+                  ? "opacity-100 translate-x-0 z-20 pointer-events-auto"
+                  : "opacity-0 translate-x-10 z-10 pointer-events-none"
+              }
             `}
               style={{ minWidth: 340 }}
             >
@@ -201,10 +215,10 @@ const AuthPage = () => {
                 width={300}
                 height={300}
               />
-              <div className="  ">
+              <div className="">
                 <form
                   onSubmit={handleRegisterSubmit}
-                  className="  h-full flex flex-col justify-center"
+                  className="  flex flex-col justify-center"
                 >
                   <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 dark:from-yellow-200 dark:via-pink-400 dark:to-pink-600 mb-6 animate-gradient-x text-center">
                     Register

@@ -1,12 +1,17 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
+import translations from "@/translations/translations";
 
 type Props = {};
 
 const Footer = (props: Props) => {
+  const { language } = useLanguage();
+  const t = translations[language as keyof typeof translations].footer;
+
   return (
-    <footer className="w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-lg px-4 py-10 caret-transparent  ">
+    <footer className="w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-lg px-4 py-10 caret-transparent">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-white">
         {/* Logo/Brand */}
         <div className="flex flex-col items-start">
@@ -16,17 +21,15 @@ const Footer = (props: Props) => {
             width={150}
             height={150}
           />
-          <span className="text-sm opacity-80 mb-4">
-            Your one-stop shop for everything!
-          </span>
+          <span className="text-sm opacity-80 mb-4">{t.brandDescription}</span>
           <span className="text-xs opacity-60">
-            © {new Date().getFullYear()} MyShop. All rights reserved.
+            {t.copyright.replace("{year}", new Date().getFullYear().toString())}
           </span>
         </div>
         {/* Quick Links */}
         <div>
           <h3 className="font-bold text-lg mb-3 text-yellow-200">
-            Quick Links
+            {t.quickLinks}
           </h3>
           <ul className="space-y-2">
             <li>
@@ -34,7 +37,7 @@ const Footer = (props: Props) => {
                 href="/home1"
                 className="hover:text-yellow-300 dark:hover:text-pink-400 transition"
               >
-                Home1
+                {t.links.home1}
               </Link>
             </li>
             <li>
@@ -42,7 +45,7 @@ const Footer = (props: Props) => {
                 href="/home2"
                 className="hover:text-yellow-300 dark:hover:text-pink-400 transition"
               >
-                Home2
+                {t.links.home2}
               </Link>
             </li>
             <li>
@@ -50,7 +53,7 @@ const Footer = (props: Props) => {
                 href="/about-us"
                 className="hover:text-yellow-300 dark:hover:text-pink-400 transition"
               >
-                About Us
+                {t.links.aboutUs}
               </Link>
             </li>
             <li>
@@ -58,7 +61,7 @@ const Footer = (props: Props) => {
                 href="/products"
                 className="hover:text-yellow-300 dark:hover:text-pink-400 transition"
               >
-                Products
+                {t.links.products}
               </Link>
             </li>
             <li>
@@ -66,7 +69,7 @@ const Footer = (props: Props) => {
                 href="/blog"
                 className="hover:text-yellow-300 dark:hover:text-pink-400 transition"
               >
-                Blog
+                {t.links.blog}
               </Link>
             </li>
             <li>
@@ -74,21 +77,23 @@ const Footer = (props: Props) => {
                 href="/contact-us"
                 className="hover:text-yellow-300 dark:hover:text-pink-400 transition"
               >
-                Contact Us
+                {t.links.contactUs}
               </Link>
             </li>
           </ul>
         </div>
         {/* Products */}
         <div>
-          <h3 className="font-bold text-lg mb-3 text-yellow-200">Products</h3>
+          <h3 className="font-bold text-lg mb-3 text-yellow-200">
+            {t.products}
+          </h3>
           <ul className="space-y-2">
             <li>
               <Link
                 href="/iphone-13"
                 className="hover:text-yellow-300 dark:hover:text-pink-400 transition"
               >
-                iPhone 13
+                {t.productLinks.iphone13}
               </Link>
             </li>
             <li>
@@ -96,7 +101,7 @@ const Footer = (props: Props) => {
                 href="/led-tv"
                 className="hover:text-yellow-300 dark:hover:text-pink-400 transition"
               >
-                LED TV
+                {t.productLinks.ledTv}
               </Link>
             </li>
             <li>
@@ -104,7 +109,7 @@ const Footer = (props: Props) => {
                 href="/blender-pro"
                 className="hover:text-yellow-300 dark:hover:text-pink-400 transition"
               >
-                Blender Pro
+                {t.productLinks.blenderPro}
               </Link>
             </li>
             <li>
@@ -112,7 +117,7 @@ const Footer = (props: Props) => {
                 href="/vacum-cleaner"
                 className="hover:text-yellow-300 dark:hover:text-pink-400 transition"
               >
-                Vacum Cleaner
+                {t.productLinks.vacuumCleaner}
               </Link>
             </li>
             <li>
@@ -120,7 +125,7 @@ const Footer = (props: Props) => {
                 href="/wireless-earbuds"
                 className="hover:text-yellow-300 dark:hover:text-pink-400 transition"
               >
-                Wireless Earbuds
+                {t.productLinks.wirelessEarbuds}
               </Link>
             </li>
             <li>
@@ -128,36 +133,25 @@ const Footer = (props: Props) => {
                 href="/coffee-maker"
                 className="hover:text-yellow-300 dark:hover:text-pink-400 transition"
               >
-                Coffee Maker
+                {t.productLinks.coffeeMaker}
               </Link>
             </li>
           </ul>
         </div>
         {/* Contact Us */}
         <div>
-          <h3 className="font-bold text-lg mb-3 text-yellow-200">Contact Us</h3>
+          <h3 className="font-bold text-lg mb-3 text-yellow-200">
+            {t.contactUs}
+          </h3>
           <ul className="space-y-2 text-sm">
             <li>
-              Email:{" "}
-              <a
-                href="mailto:support@myshop.com"
-                className="hover:text-yellow-300 dark:hover:text-pink-400 transition"
-              >
-                support@myshop.com
-              </a>
+              {t.contact.email}: {t.contact.email_content}
             </li>
             <li>
-              Phone:{" "}
-              <a
-                href="tel:+1234567890"
-                className="hover:text-yellow-300 dark:hover:text-pink-400 transition"
-              >
-                +1 234 567 890
-              </a>
+              {t.contact.phone}: {t.contact.phone_content}
             </li>
             <li>
-              Address:{" "}
-              <span className="opacity-80">123 Main St, City, Country</span>
+              {t.contact.address}: {t.contact.address_content}
             </li>
           </ul>
         </div>

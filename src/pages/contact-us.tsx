@@ -5,12 +5,19 @@ import "aos/dist/aos.css";
 import { Building2, Mail, PhoneCall } from "lucide-react";
 import Head from "next/head";
 import React from "react";
+import { useLanguage } from "@/context/LanguageContext";
+import translations from "@/translations/translations";
+
+type Language = keyof typeof translations;
 
 type Props = {};
 
 const ContactUsPage = (props: Props) => {
   const formRef = React.useRef<HTMLFormElement | null>(null);
   const [success, setSuccess] = React.useState(false);
+  const { language } = useLanguage();
+  const t = translations[language as Language].contactUsPage;
+
   React.useEffect(() => {
     AOS.init({ once: true, duration: 800, offset: 80 });
   }, []);
@@ -53,22 +60,18 @@ const ContactUsPage = (props: Props) => {
   return (
     <>
       <Head>
-        <title>Contact Us - MyShop</title>
-        <meta
-          name="description"
-          content="Get in touch with MyShop for any inquiries or support."
-        />
+        <title>{t.heroTitle} - MyShop</title>
+        <meta name="description" content={t.heroSubtitle} />
       </Head>
       <Headder />
-      <main className="bg-white dark:bg-gray-900 transition-colors duration-500 not-md:overflow-x-hidden">
+      <main className="bg-white dark:bg-gray-900 transition-colors duration-500  overflow-hidden">
         {/* 1. Hero Section */}
         <section className="flex flex-col items-center justify-center py-16 px-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 text-white min-h-[100vh]">
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-lg text-center">
-            Contact Us
+            {t.heroTitle}
           </h1>
           <p className="text-lg md:text-xl max-w-2xl text-center opacity-90">
-            We'd love to hear from you! Reach out for support, partnership, or
-            any questions about MyShop.
+            {t.heroSubtitle}
           </p>
         </section>
 
@@ -82,27 +85,27 @@ const ContactUsPage = (props: Props) => {
               <div className="mb-2 text-blue-600 dark:text-pink-400 flex justify-center text-3xl">
                 <PhoneCall size={35} />
               </div>
-              <h3 className="font-bold mb-1">Phone</h3>
+              <h3 className="font-bold mb-1">{t.phone}</h3>
               <p className="text-gray-700 dark:text-gray-200">
-                +1 800 123 4567
+                {t.phoneNumber}
               </p>
             </div>
             <div>
               <div className="mb-2 text-blue-600 dark:text-pink-400 flex justify-center text-3xl">
                 <Mail size={35} />
               </div>
-              <h3 className="font-bold mb-1">Email</h3>
+              <h3 className="font-bold mb-1">{t.email}</h3>
               <p className="text-gray-700 dark:text-gray-200">
-                support@myshop.com
+                {t.emailAddress}
               </p>
             </div>
             <div>
               <div className="mb-2 text-blue-600 dark:text-pink-400 flex justify-center text-3xl">
                 <Building2 size={35} />
               </div>
-              <h3 className="font-bold mb-1">Address</h3>
+              <h3 className="font-bold mb-1">{t.address}</h3>
               <p className="text-gray-700 dark:text-gray-200">
-                123 Market St, City, Country
+                {t.addressDetails}
               </p>
             </div>
           </div>
@@ -115,7 +118,7 @@ const ContactUsPage = (props: Props) => {
         >
           <div className="max-w-2xl mx-auto bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 rounded-2xl shadow-lg p-8">
             <h2 className="text-2xl font-bold mb-6 text-blue-700 dark:text-pink-200 text-center">
-              Send Us a Message
+              {t.formTitle}
             </h2>
             <form
               className="flex flex-col  gap-4 "
@@ -127,17 +130,17 @@ const ContactUsPage = (props: Props) => {
               <input
                 type="text"
                 name="name"
-                placeholder="Your Name"
+                placeholder={t.namePlaceholder}
                 className="px-4 py-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none"
               />
               <input
                 type="email"
                 name="email"
-                placeholder="Your Email"
+                placeholder={t.emailPlaceholder}
                 className="px-4 py-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none"
               />
               <textarea
-                placeholder="Your Message"
+                placeholder={t.messagePlaceholder}
                 name="message"
                 rows={4}
                 className="px-4 py-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none"
@@ -146,7 +149,7 @@ const ContactUsPage = (props: Props) => {
                 type="submit"
                 className="px-6 py-2 rounded bg-blue-600 text-white font-bold hover:bg-blue-700 dark:bg-pink-500 dark:hover:bg-pink-600 transition"
               >
-                Send Message
+                {t.sendButton}
               </button>
             </form>
             {success && (
@@ -154,7 +157,7 @@ const ContactUsPage = (props: Props) => {
                 id="successMessage"
                 style={{ color: "green", marginTop: "10px" }}
               >
-                Message sent successfully!
+                {t.successMessage}
               </p>
             )}
           </div>
@@ -183,36 +186,22 @@ const ContactUsPage = (props: Props) => {
         >
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl font-bold mb-6 text-blue-700 dark:text-pink-200 text-center">
-              Frequently Asked Questions
+              {t.faqTitle}
             </h2>
             <div className="space-y-4">
-              <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
-                <h3 className="font-semibold mb-1">
-                  How can I track my order?
-                </h3>
-                <p className="text-gray-700 dark:text-gray-200">
-                  You can track your order status in your MyShop account
-                  dashboard under 'Orders'.
-                </p>
-              </div>
-              <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
-                <h3 className="font-semibold mb-1">
-                  What is your return policy?
-                </h3>
-                <p className="text-gray-700 dark:text-gray-200">
-                  We offer a 30-day return policy on most products. Please see
-                  our Returns page for details.
-                </p>
-              </div>
-              <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
-                <h3 className="font-semibold mb-1">
-                  How do I contact support?
-                </h3>
-                <p className="text-gray-700 dark:text-gray-200">
-                  You can email us at support@myshop.com or use the contact form
-                  above for assistance.
-                </p>
-              </div>
+              {t.faqs.map(
+                (faq: { question: string; answer: string }, index: number) => (
+                  <div
+                    key={index}
+                    className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4"
+                  >
+                    <h3 className="font-semibold mb-1">{faq.question}</h3>
+                    <p className="text-gray-700 dark:text-gray-200">
+                      {faq.answer}
+                    </p>
+                  </div>
+                ),
+              )}
             </div>
           </div>
         </section>
@@ -224,16 +213,13 @@ const ContactUsPage = (props: Props) => {
         >
           <div className="  mx-auto flex flex-col items-center text-center">
             <h2 className="text-2xl font-bold mb-4 text-white drop-shadow-lg">
-              Stay Connected
+              {t.newsletterTitle}
             </h2>
-            <p className="mb-6 text-white/90">
-              Subscribe to our newsletter for the latest updates, offers, and
-              news from MyShop!
-            </p>
+            <p className="mb-6 text-white/90">{t.newsletterSubtitle}</p>
             <form className="md:flex w-full justify-center gap-2 items-center     max-w-md">
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder={t.newsletterPlaceholder}
                 className="  px-4 py-3 rounded-full border outline-none not-md:my-2 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 dark:focus:ring-pink-500 transition"
                 required
               />
@@ -241,7 +227,7 @@ const ContactUsPage = (props: Props) => {
                 type="submit"
                 className="px-8 py-3 rounded-full bg-white text-blue-700 font-bold text-lg shadow-lg hover:scale-105 hover:bg-blue-100 transition-all duration-300 dark:bg-gray-900 dark:text-yellow-200 dark:hover:bg-gray-800"
               >
-                Subscribe
+                {t.newsletterButton}
               </button>
             </form>
           </div>

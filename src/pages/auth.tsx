@@ -4,9 +4,14 @@ import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Head from "next/head";
 import { ModeToggle } from "@/components/ModeToggle";
+import { useLanguage } from "@/context/LanguageContext";
+import { Language } from "@/translations/translations";
+import translations from "@/translations/translations";
 
 const AuthPage = () => {
   const router = useRouter();
+  const { language, setLanguage } = useLanguage();
+  const t = translations[language as Language].auth;
   const [mode, setMode] = useState<"login" | "register">("login");
   // Login state
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
@@ -93,14 +98,15 @@ const AuthPage = () => {
     }, 1500);
   };
 
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setLanguage(e.target.value as Language);
+  };
+
   return (
     <>
       <Head>
-        <title>Authentication - MyShop</title>
-        <meta
-          name="description"
-          content="Login or register to access your account on MyShop."
-        />
+        <title>{t.title}</title>
+        <meta name="description" content={t.description} />
       </Head>
 
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-700">
@@ -108,10 +114,20 @@ const AuthPage = () => {
           className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl p-0 w-full max-w-3xl overflow-hidden relative"
           style={{ minHeight: 500 }}
         >
-          {/* Mode Toggle Button */}
-          <div className="absolute top-0 left-0 w-full flex items-center justify-end p-4 z-50">
+          {/* Language Dropdown */}
+          <div className="flex justify-between items-center p-4">
+            <select
+              value={language}
+              onChange={handleLanguageChange}
+              className="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 rounded px-3 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="en">English</option>
+              <option value="ar">Arabic</option>
+              <option value="he">Hebrew</option>
+            </select>
             <ModeToggle />
           </div>
+
           {/* Animated Forms Container */}
           <div className="md:relative w-full md:h-[500px] min-h-[400px] h-[700px]">
             {/* Login Side */}
@@ -131,7 +147,7 @@ const AuthPage = () => {
                   className="  flex flex-col justify-center"
                 >
                   <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 dark:from-yellow-200 dark:via-pink-400 dark:to-pink-600 mb-6 animate-gradient-x text-center">
-                    Login
+                    {t.login.title}
                   </h2>
                   {loginError && (
                     <div className="mb-4 text-red-500">{loginError}</div>
@@ -141,7 +157,7 @@ const AuthPage = () => {
                       name="email"
                       value={loginForm.email}
                       onChange={handleLoginChange}
-                      placeholder="Email"
+                      placeholder={t.login.emailPlaceholder}
                       type="email"
                       className="w-full px-4 py-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 mb-2"
                     />
@@ -150,7 +166,7 @@ const AuthPage = () => {
                         name="password"
                         value={loginForm.password}
                         onChange={handleLoginChange}
-                        placeholder="Password"
+                        placeholder={t.login.passwordPlaceholder}
                         type={loginShowPassword ? "text" : "password"}
                         className="w-full px-4 py-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 pr-10"
                       />
@@ -172,24 +188,24 @@ const AuthPage = () => {
                     type="submit"
                     className="w-full py-2 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white font-bold text-lg shadow-lg hover:scale-105 hover:shadow-pink-400/40 transition-all duration-300"
                   >
-                    Login
+                    {t.login.submitButton}
                   </button>
                 </form>
                 <div className="mt-6 text-center">
                   <span className="text-gray-600 dark:text-gray-300">
-                    Don't have an account?{" "}
+                    {t.login.noAccount}{" "}
                     <button
                       className="text-blue-600 dark:text-yellow-200 hover:underline transition-colors duration-300"
                       onClick={() => setMode("register")}
                     >
-                      Register
+                      {t.login.registerLink}
                     </button>
                   </span>
                 </div>
               </div>
               <Image
                 src="/login-side.png"
-                alt="Login Illustration"
+                alt={t.login.imageAlt}
                 className="object-contain ml-8 drop-shadow-xl animate-fade-in"
                 draggable="false"
                 width={300}
@@ -209,7 +225,7 @@ const AuthPage = () => {
             >
               <Image
                 src="/register-side.png"
-                alt="Register Illustration"
+                alt={t.register.imageAlt}
                 className="object-contain ml-8 drop-shadow-xl animate-fade-in"
                 draggable="false"
                 width={300}
@@ -221,7 +237,7 @@ const AuthPage = () => {
                   className="  flex flex-col justify-center"
                 >
                   <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 dark:from-yellow-200 dark:via-pink-400 dark:to-pink-600 mb-6 animate-gradient-x text-center">
-                    Register
+                    {t.register.title}
                   </h2>
                   {registerError && (
                     <div className="mb-4 text-red-500">{registerError}</div>
@@ -234,21 +250,21 @@ const AuthPage = () => {
                       name="firstName"
                       value={registerForm.firstName}
                       onChange={handleRegisterChange}
-                      placeholder="First Name"
+                      placeholder={t.register.firstNamePlaceholder}
                       className="w-full px-4 py-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 mb-2"
                     />
                     <input
                       name="lastName"
                       value={registerForm.lastName}
                       onChange={handleRegisterChange}
-                      placeholder="Last Name"
+                      placeholder={t.register.lastNamePlaceholder}
                       className="w-full px-4 py-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 mb-2"
                     />
                     <input
                       name="email"
                       value={registerForm.email}
                       onChange={handleRegisterChange}
-                      placeholder="Email"
+                      placeholder={t.register.emailPlaceholder}
                       type="email"
                       className="w-full px-4 py-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 mb-2"
                     />
@@ -257,7 +273,7 @@ const AuthPage = () => {
                         name="password"
                         value={registerForm.password}
                         onChange={handleRegisterChange}
-                        placeholder="Password"
+                        placeholder={t.register.passwordPlaceholder}
                         type={registerShowPassword ? "text" : "password"}
                         className="w-full px-4 py-2 rounded bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 pr-10"
                       />
@@ -279,17 +295,17 @@ const AuthPage = () => {
                     type="submit"
                     className="w-full py-2 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white font-bold text-lg shadow-lg hover:scale-105 hover:shadow-pink-400/40 transition-all duration-300"
                   >
-                    Register
+                    {t.register.submitButton}
                   </button>
                 </form>
                 <div className="mt-6 text-center">
                   <span className="text-gray-600 dark:text-gray-300">
-                    Already have an account?{" "}
+                    {t.register.alreadyHaveAccount}{" "}
                     <button
                       className="text-blue-600 dark:text-yellow-200 hover:underline transition-colors duration-300"
                       onClick={() => setMode("login")}
                     >
-                      Login
+                      {t.register.loginLink}
                     </button>
                   </span>
                 </div>

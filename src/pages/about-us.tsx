@@ -6,15 +6,51 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
-const counters = [
-  { label: "Happy Customers", end: 12000 },
-  { label: "Products Sold", end: 50000 },
-  { label: "Brands", end: 120 },
-  { label: "Countries Shipped", end: 35 },
-];
+import { useLanguage } from "../context/LanguageContext";
+import translations from "../translations/translations";
 
 const AboutUsPage = () => {
+  const { language } = useLanguage();
+  const t = translations[language as keyof typeof translations] as {
+    aboutUs: {
+      title: string;
+      metaDescription: string;
+      hero: {
+        title: string;
+        subtitle: string;
+      };
+      whoWeAre: {
+        title: string;
+        description1: string;
+        description2: string;
+      };
+      mission: {
+        title: string;
+        description: string;
+        points: string[];
+      };
+      milestones: {
+        title: string;
+        counters: { label: string; end: number }[];
+      };
+      team: {
+        title: string;
+        members: { name: string; role: string; img: string }[];
+      };
+      testimonials: {
+        title: string;
+        items: { name: string; review: string; img: string }[];
+      };
+      cta: {
+        title: string;
+        description: string;
+        buttonLabel: string;
+      };
+    };
+  };
+
+  const counters = t.aboutUs.milestones.counters;
+
   const counterRefs = React.useRef<(HTMLSpanElement | null)[]>([]);
 
   React.useEffect(() => {
@@ -58,27 +94,23 @@ const AboutUsPage = () => {
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [counters]);
 
   return (
     <>
       <Head>
-        <title>About Us - MyShop</title>
-        <meta
-          name="description"
-          content="Learn more about MyShop, our mission, and the team behind your favorite online store."
-        />
+        <title>{t.aboutUs.title}</title>
+        <meta name="description" content={t.aboutUs.metaDescription} />
       </Head>
       <Headder />
       <main className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-500 overflow-x-hidden caret-transparent ">
         {/* 1. Hero Section */}
         <section className="flex flex-col items-center justify-center mx-auto bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 text-white min-h-[100vh] w-full">
           <h1 className="text-5xl font-extrabold mb-4 drop-shadow-lg text-center">
-            About MyShop
+            {t.aboutUs.hero.title}
           </h1>
           <p className="text-xl max-w-2xl text-center opacity-90">
-            Discover our journey, values, and the people behind your favorite
-            online store.
+            {t.aboutUs.hero.subtitle}
           </p>
         </section>
 
@@ -94,18 +126,13 @@ const AboutUsPage = () => {
             />
             <div className="flex-1" data-aos="fade-left">
               <h2 className="text-3xl font-bold mb-4 text-blue-700 dark:text-pink-200">
-                Who We Are
+                {t.aboutUs.whoWeAre.title}
               </h2>
               <p className="mb-4 text-lg text-gray-700 dark:text-gray-200 text-justify">
-                MyShop is a leading e-commerce platform offering a wide range of
-                products from electronics and fashion to home essentials. Our
-                mission is to make shopping easy, affordable, and enjoyable for
-                everyone.
+                {t.aboutUs.whoWeAre.description1}
               </p>
               <p className="text-base text-gray-600 dark:text-gray-300">
-                Founded in 2020, we have served thousands of happy customers and
-                continue to grow with a focus on quality, customer satisfaction,
-                and innovation.
+                {t.aboutUs.whoWeAre.description2}
               </p>
             </div>
           </div>
@@ -119,19 +146,15 @@ const AboutUsPage = () => {
               data-aos="fade-right"
             >
               <h2 className="text-3xl font-bold mb-4 text-blue-700 dark:text-pink-200">
-                Our Mission
+                {t.aboutUs.mission.title}
               </h2>
               <p className="mb-6 text-lg text-gray-700 dark:text-gray-200 text-justify">
-                To empower shoppers with the best products, fast delivery, and
-                exceptional customer service. We believe in quality,
-                transparency, and building lasting relationships with our
-                customers and partners.
+                {t.aboutUs.mission.description}
               </p>
               <ul className="list-disc md:pl-5  text-gray-600  dark:text-gray-300  ">
-                <li>Wide range of top-quality products</li>
-                <li>Secure and easy checkout</li>
-                <li>24/7 customer support</li>
-                <li>Fast, reliable shipping</li>
+                {t.aboutUs.mission.points.map((point, index) => (
+                  <li key={index}>{point}</li>
+                ))}
               </ul>
             </div>
             <div className="flex-1 flex justify-center" data-aos="fade-left">
@@ -152,7 +175,7 @@ const AboutUsPage = () => {
         >
           <div className="max-w-5xl mx-auto">
             <h2 className="text-3xl font-bold mb-8 text-center text-blue-700 dark:text-pink-200">
-              Our Milestones
+              {t.aboutUs.milestones.title}
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {counters.map((counter, idx) => (
@@ -185,31 +208,10 @@ const AboutUsPage = () => {
         >
           <div className="max-w-5xl mx-auto">
             <h2 className="text-3xl font-bold mb-8 text-center text-blue-700 dark:text-pink-200">
-              Meet Our Team
+              {t.aboutUs.team.title}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-              {[
-                {
-                  name: "Ramesh B.",
-                  role: "Founder & CEO",
-                  img: "/agents/1.jpg",
-                },
-                {
-                  name: "Priya S.",
-                  role: "Head of Marketing",
-                  img: "/agents/2.jpg",
-                },
-                {
-                  name: "Rahul K.",
-                  role: "Lead Developer",
-                  img: "/agents/3.jpg",
-                },
-                {
-                  name: "Ayesha M.",
-                  role: "Customer Success",
-                  img: "/agents/4.jpg",
-                },
-              ].map((member) => (
+              {t.aboutUs.team.members.map((member) => (
                 <div
                   key={member.name}
                   className="flex flex-col items-center bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 rounded-2xl shadow p-6 animate-zoom-in"
@@ -240,28 +242,10 @@ const AboutUsPage = () => {
         >
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold mb-8 text-center text-blue-700 dark:text-pink-200">
-              What Our Customers Say
+              {t.aboutUs.testimonials.title}
             </h2>
             <div className="flex flex-wrap justify-center gap-8">
-              {[
-                {
-                  name: "Priya S.",
-                  review:
-                    "Amazing service and fast delivery! Highly recommend MyShop.",
-                  img: "/customer/1.jpg",
-                },
-                {
-                  name: "Rahul K.",
-                  review:
-                    "Great deals on electronics. The headphones I bought are fantastic!",
-                  img: "/customer/2.jpg",
-                },
-                {
-                  name: "Ayesha M.",
-                  review: "Loved the fashion collection. Will shop again!",
-                  img: "/customer/3.jpg",
-                },
-              ].map((cust, i) => (
+              {t.aboutUs.testimonials.items.map((cust, i) => (
                 <div
                   key={i}
                   className="rounded-2xl bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 p-8 w-80 animate-zoom-in"
@@ -294,17 +278,16 @@ const AboutUsPage = () => {
         >
           <div className="max-w-2xl mx-auto flex flex-col items-center text-center">
             <h2 className="text-4xl font-extrabold mb-4 text-white drop-shadow-lg">
-              Ready to Shop with Us?
+              {t.aboutUs.cta.title}
             </h2>
             <p className="mb-8 text-lg text-white/90">
-              Join thousands of happy customers and get exclusive access to the
-              latest products, deals, and more. Shop with confidence at MyShop!
+              {t.aboutUs.cta.description}
             </p>
             <Link
               href="contact-us"
               className="inline-block px-10 py-4 rounded-full bg-white text-blue-700 font-bold text-xl shadow-lg hover:scale-105 hover:bg-blue-100 transition-all duration-300 dark:bg-gray-900 dark:text-yellow-200 dark:hover:bg-gray-800 animate-zoom-in"
             >
-              Start Shopping
+              {t.aboutUs.cta.buttonLabel}
             </Link>
           </div>
         </section>

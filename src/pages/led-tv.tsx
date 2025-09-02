@@ -4,16 +4,40 @@ import Footer from "@/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
+import { useLanguage } from "../context/LanguageContext";
+import translations from "../translations/translations";
 
 const LedTv = () => {
+  const { language } = useLanguage();
+  const t = translations[language as keyof typeof translations] as {
+    ledTv: {
+      title: string;
+      metaDescription: string;
+      hero: {
+        title: string;
+        subtitle: string;
+        buttonLabel: string;
+      };
+      about: {
+        title: string;
+        description1: string;
+        description2: string;
+      };
+      features: string[];
+      reviews: Array<{ name: string; review: string; img: string }>;
+      cta: {
+        title: string;
+        description: string;
+        buttonLabel: string;
+      };
+    };
+  };
+
   return (
     <>
       <Head>
-        <title>LED TV - MyShop</title>
-        <meta
-          name="description"
-          content="Discover the features and specifications of our latest LED TV."
-        />
+        <title>{t.ledTv.title}</title>
+        <meta name="description" content={t.ledTv.metaDescription} />
       </Head>
       <Headder />
 
@@ -22,23 +46,21 @@ const LedTv = () => {
         <section className="flex flex-col md:flex-row items-center justify-between mx-auto bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 text-white min-h-[60vh] w-full px-6 py-16">
           <div className="  mb-8 md:mb-0" data-aos="fade-right">
             <h1 className="text-5xl font-extrabold mb-4 drop-shadow-lg">
-              LED TV
+              {t.ledTv.hero.title}
             </h1>
             <p className="text-xl max-w-xl opacity-90 mb-6">
-              Experience cinematic visuals at home with our latest LED TV.
-              Stunning clarity, vibrant colors, and smart features for the
-              modern home.
+              {t.ledTv.hero.subtitle}
             </p>
             <a
               href="#buy"
               className="inline-block   px-8 py-3 rounded-full bg-white text-blue-700 font-bold text-lg shadow-lg hover:scale-105 hover:bg-blue-100 transition-all duration-300 dark:bg-gray-900 dark:text-yellow-200 dark:hover:bg-gray-800"
             >
-              Buy Now
+              {t.ledTv.hero.buttonLabel}
             </a>
           </div>
           <Image
             src="/ledtv-main.png"
-            alt="LED TV"
+            alt={t.ledTv.hero.title}
             className="w-64 h-64 md:w-100 md:h-100 object-cover  "
             data-aos="fade-left"
             width={400}
@@ -51,22 +73,19 @@ const LedTv = () => {
           <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-10">
             <img
               src="/ledtv-side.png"
-              alt="LED TV Side"
+              alt={t.ledTv.hero.title}
               className="w-40 h-40 md:w-56 md:h-56 object-contain mb-6 md:mb-0"
               data-aos="fade-right"
             />
             <div className="flex-1" data-aos="fade-left">
               <h2 className="text-3xl font-bold mb-4 text-blue-700 dark:text-pink-200">
-                About LED TV
+                {t.ledTv.about.title}
               </h2>
               <p className="mb-4 text-lg text-gray-700 dark:text-gray-200 text-justify">
-                Our LED TV combines sleek design with advanced display
-                technology, delivering lifelike images and immersive sound.
-                Perfect for movies, sports, and gaming.
+                {t.ledTv.about.description1}
               </p>
               <p className="text-base text-gray-600 dark:text-gray-300">
-                Available in multiple sizes and resolutions, it fits any room
-                and entertainment need.
+                {t.ledTv.about.description2}
               </p>
             </div>
           </div>
@@ -76,7 +95,11 @@ const LedTv = () => {
         <section className="py-16 px-4 bg-gray-50 dark:bg-gray-800">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-3xl font-bold mb-8 text-center text-blue-700 dark:text-pink-200">
-              Gallery
+              {language === "ar"
+                ? "معرض الصور"
+                : language === "he"
+                  ? "גלריה"
+                  : "Gallery"}
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
@@ -90,7 +113,7 @@ const LedTv = () => {
                   height={400}
                   key={idx}
                   src={img}
-                  alt={`LED TV view ${idx + 1}`}
+                  alt={`${t.ledTv.hero.title} view ${idx + 1}`}
                   className="w-[100%] h-[300px] object-cover rounded-xl shadow   bg-white dark:bg-gray-900"
                 />
               ))}
@@ -102,24 +125,17 @@ const LedTv = () => {
         <section className="py-16 px-4 bg-white dark:bg-gray-900">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-3xl font-bold mb-8 text-center text-blue-700 dark:text-pink-200">
-              Key Features
+              {language === "ar"
+                ? "الميزات الرئيسية"
+                : language === "he"
+                  ? "תכונות עיקריות"
+                  : "Key Features"}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <ul className="list-disc pl-6 text-gray-700 dark:text-gray-200 text-lg space-y-2">
-                <li>Ultra HD 4K resolution for crystal-clear images</li>
-                <li>Smart TV with built-in streaming apps</li>
-                <li>HDR10+ for vibrant colors and deep contrast</li>
-                <li>Dolby Audio for immersive sound</li>
-                <li>Multiple HDMI and USB ports</li>
-                <li>Energy efficient and eco-friendly</li>
-              </ul>
-              <ul className="list-disc pl-6 text-gray-700 dark:text-gray-200 text-lg space-y-2">
-                <li>Ultra-slim bezel design</li>
-                <li>Voice control and smart remote</li>
-                <li>Screen mirroring from mobile devices</li>
-                <li>Wall-mountable and tabletop options</li>
-                <li>Available in 43", 55", and 65" sizes</li>
-                <li>1-year warranty included</li>
+                {t.ledTv.features.map((feature, index) => (
+                  <li key={index}>{feature}</li>
+                ))}
               </ul>
             </div>
           </div>
@@ -129,27 +145,14 @@ const LedTv = () => {
         <section className="py-16 px-4 bg-gray-50 dark:bg-gray-800">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-3xl font-bold mb-8 text-center text-blue-700 dark:text-pink-200">
-              Customer Reviews
+              {language === "ar"
+                ? "آراء العملاء"
+                : language === "he"
+                  ? "ביקורות לקוחות"
+                  : "Customer Reviews"}
             </h2>
             <div className="flex flex-wrap justify-center gap-8">
-              {[
-                {
-                  name: "Sonia P.",
-                  review:
-                    "The picture quality is stunning! Streaming is super easy.",
-                  img: "/customer/1.jpg",
-                },
-                {
-                  name: "Amit R.",
-                  review: "Great value for money. The sound is amazing.",
-                  img: "/customer/2.jpg",
-                },
-                {
-                  name: "Leena M.",
-                  review: "Love the smart features and slim design!",
-                  img: "/customer/3.jpg",
-                },
-              ].map((cust, i) => (
+              {t.ledTv.reviews.map((cust, i) => (
                 <div
                   key={i}
                   className="rounded-2xl bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 p-8 w-80 animate-zoom-in"
@@ -182,17 +185,16 @@ const LedTv = () => {
         >
           <div className="max-w-2xl mx-auto flex flex-col items-center text-center">
             <h2 className="text-4xl font-extrabold mb-4 text-white drop-shadow-lg">
-              Ready for a Home Theater?
+              {t.ledTv.cta.title}
             </h2>
             <p className="mb-8 text-lg text-white/90">
-              Upgrade your entertainment setup with our latest LED TV. Limited
-              stock available!
+              {t.ledTv.cta.description}
             </p>
             <Link
               href="/contact-us"
               className="inline-block px-10 py-4 rounded-full bg-white text-blue-700 font-bold text-xl shadow-lg hover:scale-105 hover:bg-blue-100 transition-all duration-300 dark:bg-gray-900 dark:text-yellow-200 dark:hover:bg-gray-800"
             >
-              Buy LED TV
+              {t.ledTv.cta.buttonLabel}
             </Link>
           </div>
         </section>

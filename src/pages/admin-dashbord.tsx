@@ -9,6 +9,8 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { useLanguage } from "@/context/LanguageContext";
+import translations from "@/translations/translations";
 
 type User = {
   firstName: string;
@@ -20,7 +22,12 @@ type User = {
   lastLogoutAt?: string;
 };
 
+type Language = keyof typeof translations;
+
 const AdminDashboard = () => {
+  const { language } = useLanguage();
+  const t = translations[language as Language].adminDashboard;
+
   const [users, setUsers] = React.useState<User[]>([]);
   const [currentUser, setCurrentUser] = React.useState<User | null>(null);
 
@@ -31,46 +38,41 @@ const AdminDashboard = () => {
     setCurrentUser(currentUserData ? JSON.parse(currentUserData) : null);
   }, []);
 
-  // For the graph: total users vs. currently logged-in user
   const totalUsers = users.length;
   const loggedInUserCount = currentUser ? 1 : 0;
   const loggedOutUsers = totalUsers - loggedInUserCount;
 
-  // Pie chart data
   const pieData = [
-    { name: "Logged In", value: loggedInUserCount },
-    { name: "Logged Out", value: loggedOutUsers },
+    { name: t.loggedInUser, value: loggedInUserCount },
+    { name: t.allUsers, value: loggedOutUsers },
   ];
   const COLORS = ["#7c3aed", "#ddd"];
 
   return (
     <>
       <Head>
-        <title>Admin Dashboard - MyShop</title>
-        <meta
-          name="description"
-          content="Admin Dashboard for managing users and monitoring activity on MyShop."
-        />
+        <title>{t.title} - MyShop</title>
+        <meta name="description" content={t.metaDescription} />
       </Head>
       <Headder />
       <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-8">
         <h1 className="text-4xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 dark:from-yellow-200 dark:via-pink-400 dark:to-pink-600 animate-gradient-x">
-          Admin Dashboard
+          {t.header}
         </h1>
         <div className="mb-8 flex flex-col md:flex-row gap-8 justify-center">
           <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-6 w-full md:w-1/2">
             <h2 className="text-2xl font-semibold mb-4 text-blue-700 dark:text-pink-200">
-              All Users
+              {t.allUsers}
             </h2>
             <div className="overflow-x-auto">
               <table className="min-w-full text-sm text-left">
                 <thead>
                   <tr className="bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800">
-                    <th className="px-3 py-2">Name</th>
-                    <th className="px-3 py-2">Email</th>
-                    <th className="px-3 py-2">Registered</th>
-                    <th className="px-3 py-2">Last Login</th>
-                    <th className="px-3 py-2">Last Logout</th>
+                    <th className="px-3 py-2">{t.tableHeaders.name}</th>
+                    <th className="px-3 py-2">{t.tableHeaders.email}</th>
+                    <th className="px-3 py-2">{t.tableHeaders.registered}</th>
+                    <th className="px-3 py-2">{t.tableHeaders.lastLogin}</th>
+                    <th className="px-3 py-2">{t.tableHeaders.lastLogout}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -110,7 +112,7 @@ const AdminDashboard = () => {
           </div>
           <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-6 w-full md:w-1/2 flex flex-col items-center">
             <h2 className="text-2xl font-semibold mb-4 text-blue-700 dark:text-pink-200">
-              Logged-in User
+              {t.loggedInUser}
             </h2>
             {currentUser ? (
               <div className="mb-4 p-4 rounded-xl bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 shadow">
@@ -121,23 +123,23 @@ const AdminDashboard = () => {
                   {currentUser.email}
                 </div>
                 <div className="text-xs mt-2">
-                  Last Login:{" "}
+                  {t.tableHeaders.lastLogin}:{" "}
                   {currentUser.lastLoginAt
                     ? new Date(currentUser.lastLoginAt).toLocaleString()
                     : "-"}
                 </div>
                 <div className="text-xs">
-                  Last Logout:{" "}
+                  {t.tableHeaders.lastLogout}:{" "}
                   {currentUser.lastLogoutAt
                     ? new Date(currentUser.lastLogoutAt).toLocaleString()
                     : "-"}
                 </div>
               </div>
             ) : (
-              <div className="text-gray-500">No user currently logged in.</div>
+              <div className="text-gray-500">{t.noUserLoggedIn}</div>
             )}
             <h2 className="text-2xl font-semibold mb-4 mt-6 text-blue-700 dark:text-pink-200">
-              User Pie Chart
+              {t.userPieChart}
             </h2>
             <div style={{ width: 260, height: 220 }} className="mb-2">
               <ResponsiveContainer width="100%" height="100%">
@@ -154,9 +156,7 @@ const AdminDashboard = () => {
                       name?: string;
                       percent?: number;
                     }) =>
-                      `${name}: ${
-                        percent !== undefined ? (percent * 100).toFixed(0) : "0"
-                      }%`
+                      `${name}: ${percent !== undefined ? (percent * 100).toFixed(0) : "0"}%`
                     }
                     outerRadius={80}
                     fill="#8884d8"
@@ -175,7 +175,7 @@ const AdminDashboard = () => {
               </ResponsiveContainer>
             </div>
             <div className="text-xs text-gray-500 dark:text-gray-400">
-              Pie chart: Logged-in user(s) vs. all users
+              {t.pieChartDescription}
             </div>
           </div>
         </div>
